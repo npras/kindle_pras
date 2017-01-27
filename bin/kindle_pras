@@ -22,10 +22,6 @@ OptionParser.new do |opts|
     options[:extract_book] = v
   end
 
-  opts.on('-dBOOK_TITLE_PART_REGEXP', '--delete-book=BOOK_TITLE_PART_REGEXP', Regexp, "Delete everything about a book in 'My Clippings.txt' file. Eg: ./bin/kindle_pras -d '/getting things done/'") do |v|
-    options[:delete_book] = v
-  end
-
   opts.on("-h", "--help", "Prints this help") do
     puts opts
     exit

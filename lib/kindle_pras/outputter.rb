@@ -13,7 +13,10 @@ module KindlePras
     end
 
 
-    def print_book_notes(notes)
+    def print_book_notes(title, author, notes)
+      p "TITLE: #{title}"
+      p "AUTHOR: #{author}"
+      puts
       notes.each do |note|
         puts note
         puts
