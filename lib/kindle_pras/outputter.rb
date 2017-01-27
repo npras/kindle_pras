@@ -13,6 +13,14 @@ module KindlePras
     end
 
 
+    def print_book_notes(notes)
+      notes.each do |note|
+        puts note
+        puts
+      end
+    end
+
+
     def formatted_title(title, author, i)
       output = <<~OUTPUT
       Idx:    #{i}

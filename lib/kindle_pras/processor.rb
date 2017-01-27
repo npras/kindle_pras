@@ -4,16 +4,15 @@ module KindlePras
 
     DEFAULT_PATH = 'data/My Clippings.txt'
 
-    REGEXP_CHUNK_DELIMITER = /^==========$/
+    REGEXP_CHUNK_DELIMITER = '=========='
     REGEXP_TITLE_AUTHOR_LINE = /^(?<title>.*).*\((?<author>.*?)\)$/
-    REGEXP_NOTE_IDENTIFIER = /Your Note on Location/
+    REGEXP_NOTE_CHUNK = /Your Note on Location/
+    REGEXP_BOOKMARK_CHUNK = /Your Bookmark on Location/
 
 
     def initialize(opts)
       @opts = opts
       @file_path = @opts[:file_path] || DEFAULT_PATH
-
-      p @opts
     end
 
 
@@ -29,14 +28,9 @@ module KindlePras
 
 
     def read_chunks
-      chunk = ''
-      File.foreach(@file_path) do |line|
-        if line.chomp.match?(REGEXP_CHUNK_DELIMITER)
-          yield(chunk)
-          chunk = ''
-        else
-          chunk << line
-        end
+      File.foreach(@file_path, REGEXP_CHUNK_DELIMITER) do |raw_chunk|
+        chunk = raw_chunk.gsub(/#{REGEXP_CHUNK_DELIMITER}$/, '').strip
+        yield(chunk)
       end
     end
 
@@ -46,6 +40,7 @@ module KindlePras
 
       read_chunks do |chunk|
         line =  chunk.split("\r\n").first
+        next if line.nil?
         md = line.match(REGEXP_TITLE_AUTHOR_LINE)
         if md
           books[md[:title]] = md[:author]
@@ -59,16 +54,19 @@ module KindlePras
 
 
     def extract_book(regexp_book_title)
+      highlights = []
+
       read_chunks do |chunk|
-        next if chunk.match?(REGEXP_NOTE_IDENTIFIER)
+        next if [REGEXP_NOTE_CHUNK, REGEXP_BOOKMARK_CHUNK].any? {|r| chunk.match?(r)}
         line =  chunk.split("\r\n").first
+        next if line.nil?
         md = line.match(REGEXP_TITLE_AUTHOR_LINE)
         if md&.[](:title)&.downcase&.match?(regexp_book_title)
-          highlight = chunk.split("\r\n").last
-          puts highlight
-          puts
+          highlights << chunk.split("\r\n").last
         end
       end
+
+      KindlePras::Outputter.print_book_notes(highlights)
     end
 
 
