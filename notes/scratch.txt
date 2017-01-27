@@ -1,0 +1,9 @@
+/\A^(?<title>.*) (?<author>\(.*\))$\n- Your Bookmark on Location.*\n\n\n==========\z/m
+
+
+A short history of nearly everything (Bill Bryson)
+- Your Bookmark on Location 391 | Added on Saturday, April 12, 2014 12:44:58 PM
+
+
+==========
+

@@ -1,0 +1,37 @@
+#!/usr/bin/env ruby
+require_relative "../lib/kindle_pras"
+
+require 'optparse'
+
+options = {}
+
+
+OptionParser.new do |opts|
+
+  opts.banner = "Usage: kindle_pras.rb [options]"   
+
+  opts.on('-fFILE_PATH', '--file=FILE_PATH', "path to 'My Clippings.txt' file") do |v|
+    options[:file_path] = v
+  end
+
+  opts.on('-l', '--list', "List all available books") do |v|
+    options[:list_books] = v
+  end
+
+  opts.on('-eBOOK_TITLE_PART_REGEXP', '--extract-book=BOOK_TITLE_PART_REGEXP', Regexp, "Extract all highlights as notes for a given book. Eg: ./bin/kindle_pras -e '/getting things done/'") do |v|
+    options[:extract_book] = v
+  end
+
+  opts.on('-dBOOK_TITLE_PART_REGEXP', '--delete-book=BOOK_TITLE_PART_REGEXP', Regexp, "Delete everything about a book in 'My Clippings.txt' file. Eg: ./bin/kindle_pras -d '/getting things done/'") do |v|
+    options[:delete_book] = v
+  end
+
+  opts.on("-h", "--help", "Prints this help") do
+    puts opts
+    exit
+  end
+
+end.parse!
+
+
+KindlePras::Processor.new(options).do_the_work!
