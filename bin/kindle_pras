@@ -18,8 +18,20 @@ OptionParser.new do |opts|
     options[:list_books] = v
   end
 
-  opts.on('-eBOOK_TITLE_PART_REGEXP', '--extract-book=BOOK_TITLE_PART_REGEXP', Regexp, "Extract all highlights as notes for a given book. Eg: ./bin/kindle_pras -e '/getting things done/'") do |v|
+  opts.on('-eBOOK_TITLE_PART_REGEXP', '--extract-book=BOOK_TITLE_PART_REGEXP', Regexp, "Extract all highlights as notes for a given book. Eg: ./bin/kindle_pras -e '/getting things done/' -n 'GTD' -r '7' -i '9781455509126'") do |v|
     options[:extract_book] = v
+  end
+
+  opts.on('-nNAME', '--name=NAME', "Short name of the book for filename and URL use. Use it along with the '-e', '-i', '-r' flag. Eg: ./bin/kindle_pras -e 'getting things done' -n 'GTD' -r '7' -i '9781455509126'") do |v|
+    options[:name] = v
+  end
+
+  opts.on('-rRATING', '--rating=RATING', Integer, "Rating out of 10 for the book. Use it along with the '-e', 'i' and '-n' flag. Eg: ./bin/kindle_pras -e 'getting things done' -n 'GTD' -r '7' -i '9781455509126'") do |v|
+    options[:rating] = v
+  end
+
+  opts.on('-iISBN', '--isbn=ISBN', "The book's ISBN. Use http://www.isbnsearch.org/. Use it along with the '-e', '-r' and '-n' flag. Eg: ./bin/kindle_pras -e 'getting things done' -n 'GTD' -r '7' -i '9781455509126'") do |v|
+    options[:isbn] = v
   end
 
   opts.on("-h", "--help", "Prints this help") do
