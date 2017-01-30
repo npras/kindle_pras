@@ -14,7 +14,7 @@ module KindlePras
     end
 
 
-    def print_book_notes(title:, author:, notes:, short_name:, rating:, isbn:)
+    def print_book_notes(title:, author:, notes:, short_name:, rating:, isbn:, link1:)
       if notes.empty?
         warn "No highlights found for the given book!"
         return
@@ -24,7 +24,7 @@ module KindlePras
       fname = "output/#{today}-#{short_name}.markdown"
 
       File.open(fname, 'w') do |f|
-        f.puts metadata(title: short_name, rating: rating, isbn: isbn)
+        f.puts metadata(title: title, author: author, rating: rating, isbn: isbn, affiliate_amazon: link1)
         notes.each { |n| f.puts("#{n}\n\n") }
       end
 
@@ -42,11 +42,11 @@ module KindlePras
     end
 
 
-    private def metadata(title:, rating:, isbn:)
+    private def metadata(title:, author:, rating:, isbn:, affiliate_amazon:)
       <<~STR
       ---
       layout: post
-      title: #{title}
+      title: "#{title} - by #{author}"
       ---
 
       ISBN: #{isbn}, READ: #{today}, RATING: #{rating}/10
@@ -55,9 +55,9 @@ module KindlePras
 
       <!--more-->
 
-      See [Amazon Page]() for details and reviews.
+      See [__Amazon Page__](#{affiliate_amazon}) for details and reviews.
 
-      ## Key Takeaways For Me
+      ## Key Lessons
       
       ## My Notes
       STR

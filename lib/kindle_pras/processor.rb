@@ -65,7 +65,8 @@ module KindlePras
         notes: highlights,
         short_name: @opts[:name],
         rating: @opts[:rating],
-        isbn: @opts[:isbn]
+        isbn: @opts[:isbn],
+        link1: @opts[:link1]
       )
     end
 
