@@ -18,7 +18,7 @@ OptionParser.new do |opts|
     options[:list_books] = v
   end
 
-  opts.on('-eBOOK_TITLE_PART_REGEXP', '--extract-book=BOOK_TITLE_PART_REGEXP', Regexp, "Extract all highlights as notes for a given book. Eg: ./bin/kindle_pras  -e '/getting things done/'  --name='GTD'  --rating='7'  --isbn='9781455509126' --link1='http://amazn.to/xyz'") do |v|
+  opts.on('-eBOOK_TITLE_PART_REGEXP', '--extract-book=BOOK_TITLE_PART_REGEXP', "Extract all highlights as notes for a given book. Eg: ./bin/kindle_pras  -e 'getting things done'  --name='GTD'  --rating='7'  --isbn='9781455509126' --link1='http://amazn.to/xyz'") do |v|
     options[:extract_book] = v
   end
 
@@ -39,7 +39,7 @@ OptionParser.new do |opts|
   end
 
   opts.on('-p', "Print the template for the 'extract-book' command with all options.") do |v|
-    puts %Q|kindle_pras  -e "/getting things done/"  --name='GTD'  --rating='7'  --isbn='9781455509126'  --link1='http://amazn.to/xyz'|
+    puts %Q|kindle_pras  -e "getting things done"  --name='GTD'  --rating='7'  --isbn='9781455509126'  --link1='http://amazn.to/xyz'|
     exit
   end
 

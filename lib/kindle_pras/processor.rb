@@ -47,6 +47,7 @@ module KindlePras
       ensure_valid_opts_for_extraction
 
       highlights = []
+      regexp_book_title = Regexp.new(regexp_book_title, 'i')
       title, author = book_title_and_author(regexp_book_title)
 
       read_chunks do |chunk|
