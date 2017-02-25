@@ -3,6 +3,7 @@ module KindlePras
 
 
     DEFAULT_PATH = 'data/My Clippings.txt'
+    #DEFAULT_PATH = 'data/My Clippings.txt.sample'
 
     REGEXP_CHUNK_DELIMITER = '=========='
     REGEXP_TITLE_AUTHOR_LINE = /^(?<title>.*).*\((?<author>.*?)\)$/
@@ -12,7 +13,6 @@ module KindlePras
 
     def initialize(opts)
       @opts = opts
-      @file_path = @opts[:file_path] || DEFAULT_PATH
     end
 
 
@@ -44,7 +44,7 @@ module KindlePras
 
 
     private def extract_book(regexp_book_title)
-      ensure_valid_opts_for_extraction
+      fail "Name needed to save the notes in a file. Pass the '-n' flag." if @opts[:name].nil? || @opts[:name].empty?
 
       highlights = []
       regexp_book_title = Regexp.new(regexp_book_title, 'i')
@@ -65,22 +65,13 @@ module KindlePras
         author: author,
         notes: highlights,
         short_name: @opts[:name],
-        rating: @opts[:rating],
-        isbn: @opts[:isbn],
-        link1: @opts[:link1]
+        preview: @opts[:preview]
       )
     end
 
     
-    private def ensure_valid_opts_for_extraction
-      fail "Name needed to save the notes in a file. Pass the '-n' flag." if @opts[:name].nil? || @opts[:name].empty?
-      fail "Rating needed. Pass the '-r' flag." if @opts[:rating].nil?
-      fail "ISBN needed. Find it from http://www.isbnsearch.org/. Pass the '-i' flag." if @opts[:isbn].nil?
-    end
-
-
     private def read_chunks
-      File.foreach(@file_path, REGEXP_CHUNK_DELIMITER) do |raw_chunk|
+      File.foreach(DEFAULT_PATH, REGEXP_CHUNK_DELIMITER) do |raw_chunk|
         chunk = raw_chunk.gsub(/#{REGEXP_CHUNK_DELIMITER}$/, '').strip
         yield(chunk)
       end

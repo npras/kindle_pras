@@ -10,15 +10,11 @@ OptionParser.new do |opts|
 
   opts.banner = "Usage: kindle_pras.rb [options]"   
 
-  opts.on('-fFILE_PATH', '--file=FILE_PATH', "path to 'My Clippings.txt' file") do |v|
-    options[:file_path] = v
-  end
-
   opts.on('-l', '--list', "List all available books") do |v|
     options[:list_books] = v
   end
 
-  opts.on('-eBOOK_TITLE_PART_REGEXP', '--extract-book=BOOK_TITLE_PART_REGEXP', "Extract all highlights as notes for a given book. Eg: ./bin/kindle_pras  -e 'getting things done'  --name='GTD'  --rating='7'  --isbn='9781455509126' --link1='http://amazn.to/xyz'") do |v|
+  opts.on('-eBOOK_TITLE_PART_REGEXP', '--extract-book=BOOK_TITLE_PART_REGEXP', "Extract all highlights as notes for a given book. Eg: ./bin/kindle_pras  -e 'getting things done'  --name='GTD'") do |v|
     options[:extract_book] = v
   end
 
@@ -26,20 +22,13 @@ OptionParser.new do |opts|
     options[:name] = v
   end
 
-  opts.on('--rating=RATING', Integer, "Rating out of 10 for the book. Use it along with the '-e' flag.") do |v|
-    options[:rating] = v
-  end
-
-  opts.on('--isbn=ISBN', "The book's ISBN. Use http://www.isbnsearch.org/. Use it along with the '-e' flag.") do |v|
-    options[:isbn] = v
-  end
-
-  opts.on('--link1=AMAZON', "The book's Amazon.in affiliate link. Use it along with the '-e' flag.") do |v|
-    options[:link1] = v
+  opts.on('--preview', "Preview the notes for the given book") do |v|
+    options[:preview] = v
   end
 
   opts.on('-p', "Print the template for the 'extract-book' command with all options.") do |v|
-    puts %Q|kindle_pras  -e "getting things done"  --name='GTD'  --rating='7'  --isbn='9781455509126'  --link1='http://amazn.to/xyz'|
+    puts %Q|./bin/kindle_pras  --extract-book="getting things done"  --name='GTD' --preview|
+    puts %Q|./bin/kindle_pras  -e "getting things done"  -n 'GTD' --preview|
     exit
   end
 
