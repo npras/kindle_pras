@@ -45,21 +45,19 @@ module KindlePras
     private def metadata(title:, author:)
       <<~STR
       ---
-      layout: post
+      kind: article
+      created_at: #{today}
       title: "#{title} - by #{author}"
+      unsplash: []
       ---
 
-      ISBN: XXXX, READ: #{today}, RATING: XXXX/10
+      READ: #{today}, RATING: XX/10
 
-      <!--summary-->
+      <!--summary-and-lessons-i-learned-->
 
-      <!--more-->
+      See [__Goodreads Page__](XXXX) for reviews.
 
-      See [__Amazon Page__](XXXX) for details and reviews.
-
-      ## Key Lessons
-      
-      ## My Notes
+      ## My Highlights
       STR
     end
 
